@@ -23,7 +23,7 @@ public class Player : MonoBehaviour
         {
             if (moveX > 0)
             {
-              transform.Rotate(transform.rotation.x, 90, transform.rotation.z);
+              //  transform.rotation.y =
             }
             animator.SetBool("andando", true);
         }
