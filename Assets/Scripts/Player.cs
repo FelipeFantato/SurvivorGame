@@ -40,12 +40,23 @@ public class Player : MonoBehaviour
     
     private Vector2 playerVec2;
     private Vector3 playerVec3;
-    private bool isMoving;
+
+    private Vector3 currentRunVelocity;
+
+    private bool isMovingAnimation;
     private bool isRotation;
+    private bool isRunningPressed;
     private float rotationVelocity = 10f;
     private Animator animator;
 
+    private int a_isWalking;
+    private int a_isRunning;
+
    [SerializeField] private float velocidade;
+
+    [SerializeField] private float RunVelocidade;
+    private bool isRuningAnimation;
+    private bool isMoving;
 
     private void Awake()
     {
@@ -55,7 +66,12 @@ public class Player : MonoBehaviour
         input.Movement.Walk.started += OnMovementInput;
         input.Movement.Walk.canceled += OnMovementInput;
         input.Movement.Walk.performed += OnMovementInput;
-        animator = GetComponent<Animator>();
+
+        input.Movement.Run.started += OnRunningInput;
+        input.Movement.Run.canceled += OnRunningInput;
+        GetAnimatorParameters();
+          animator = GetComponent<Animator>();
+       
     }
     private void OnMovementInput(InputAction.CallbackContext context)
     {
@@ -64,8 +80,25 @@ public class Player : MonoBehaviour
         playerVec3.y = 0f;
         playerVec3.z = playerVec2.y;
 
+        currentRunVelocity.x = playerVec3.x * RunVelocidade;
+        currentRunVelocity.z = playerVec3.z * RunVelocidade;
        
         isMoving = playerVec2.y != 0 || playerVec2.x != 0;
+       
+    }
+
+    private void GetAnimatorParameters()
+    {
+        a_isWalking = Animator.StringToHash("andando");
+        a_isRunning = Animator.StringToHash("correndo");
+
+    }
+
+    private void OnRunningInput(InputAction.CallbackContext context)
+    {
+        isRunningPressed =context.ReadValueAsButton();
+       
+       
     }
 
     void Update()
@@ -93,19 +126,40 @@ public class Player : MonoBehaviour
 
     private void AnimationHandler()
     {
-        if (!animator.GetBool("andando")&& isMoving)
+        bool isRuningAnimation = animator.GetBool(a_isRunning);
+        bool isMovingAnimation = animator.GetBool(a_isWalking);
+
+        if (isMoving && !isMovingAnimation)
         {
-            animator.SetBool("andando", true);
+            animator.SetBool(a_isWalking, true);
         }
-        if (animator.GetBool("andando") && !isMoving)
+        else if (!isMoving && isMovingAnimation)
         {
-            animator.SetBool("andando", false);
+            animator.SetBool(a_isWalking, false);
+        }
+        if (isMoving && isRunningPressed && !isRuningAnimation)
+        {
+            animator.SetBool(a_isRunning, true);
+        }
+        else if (!isMoving || !isRunningPressed && isRuningAnimation)
+        {
+            animator.SetBool(a_isRunning, false);
         }
     }
 
     private void MovePlayer()
     {
-        characterController.Move(playerVec3 * Time.deltaTime * velocidade);
+      
+        if (isRunningPressed)
+        {
+            characterController.Move(currentRunVelocity * Time.deltaTime * velocidade);
+
+        }
+        else
+        {
+            characterController.Move(playerVec3 * Time.deltaTime * velocidade);
+
+        }
     }
 
     private void OnEnable()
