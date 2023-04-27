@@ -2,74 +2,45 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
 
-    #region codigoPassado
-    /*
-    private Rigidbody rb;
-    private float velocity = 10f;
-    private Animator animator;
+    static public int vida;
+    [SerializeField] private Text vidaTxt;
+    [SerializeField] private Text tempoTxt;
+    [SerializeField] private Text Vitoria;
+    [SerializeField] private Text Derrota;
+    private float timer;
 
-    rb = GetComponent<Rigidbody>();
-        animator = GetComponent<Animator>();
-    
-        float moveX = Input.GetAxis("Horizontal") * Time.deltaTime * velocity;
-        float moveY = Input.GetAxis("Vertical") * Time.deltaTime * velocity;
-       if(moveX != 0 || moveY != 0)
-        {
-            if (moveX > 0)
-            {
-              //  transform.rotation.y =
-            }
-            animator.SetBool("andando", true);
-        }
-        else if(moveX == 0 && moveY == 0)
-        {
-            animator.SetBool("andando", false);
-        }
-        transform.Translate(moveX, 0, moveY);
-    }
-        */
-    #endregion
 
     private PlayerInput input;
-    private CharacterController characterController;
-    
+    private CharacterController playerControl;
     private Vector2 playerVec2;
     private Vector3 playerVec3;
-
     private Vector3 currentRunVelocity;
-
-    private bool isMovingAnimation;
-    private bool isRotation;
-    private bool isRunningPressed;
-    private float rotationVelocity = 10f;
+    private float velocidadeRodar = 10f;
     private Animator animator;
 
-    private int a_isWalking;
-    private int a_isRunning;
-
+    
    [SerializeField] private float velocidade;
-
     [SerializeField] private float RunVelocidade;
-    private bool isRuningAnimation;
-    private bool isMoving;
+   
+    private bool taMovendo;
 
     private void Awake()
     {
+        Vitoria.enabled = false;
+        Derrota.enabled = false;
+        vida = 100;
         input = new PlayerInput();
-        characterController = GetComponent<CharacterController>();
+        playerControl = GetComponent<CharacterController>();
 
-        input.Movement.Walk.started += OnMovementInput;
-        input.Movement.Walk.canceled += OnMovementInput;
-        input.Movement.Walk.performed += OnMovementInput;
-
-        input.Movement.Run.started += OnRunningInput;
-        input.Movement.Run.canceled += OnRunningInput;
-        GetAnimatorParameters();
+        input.Movement.Andar.started += OnMovementInput;
+        input.Movement.Andar.canceled += OnMovementInput;
+        input.Movement.Andar.performed += OnMovementInput;
           animator = GetComponent<Animator>();
        
     }
@@ -83,83 +54,58 @@ public class Player : MonoBehaviour
         currentRunVelocity.x = playerVec3.x * RunVelocidade;
         currentRunVelocity.z = playerVec3.z * RunVelocidade;
        
-        isMoving = playerVec2.y != 0 || playerVec2.x != 0;
-       
-    }
-
-    private void GetAnimatorParameters()
-    {
-        a_isWalking = Animator.StringToHash("andando");
-        a_isRunning = Animator.StringToHash("correndo");
-
-    }
-
-    private void OnRunningInput(InputAction.CallbackContext context)
-    {
-        isRunningPressed =context.ReadValueAsButton();
-       
+        taMovendo = playerVec2.y != 0 || playerVec2.x != 0;
        
     }
 
     void Update()
     {
-        MovePlayer();
-        AnimationHandler();
-        PlayerRotationHandler();
-    }
 
-    private void PlayerRotationHandler()
+        AttTempo();
+        MovimentaJogador();
+        TrocaAnim();
+        RodaJogador();
+    }
+    private void AttTempo()
+    {
+       
+        timer += Time.deltaTime;
+        int seconds = (int)(timer % 60);
+
+        tempoTxt.text = "Tempo- " + seconds;
+
+        if(seconds == 10)
+        {
+            Vitoria.enabled = true;
+            Time.timeScale = 0;
+        }
+    }
+    private void RodaJogador()
     {
         Vector3 positionLookAt;
         positionLookAt.x = playerVec3.x;
         positionLookAt.y = playerVec3.y;
         positionLookAt.z = playerVec3.z;
         Quaternion currentRotation = transform.rotation;
-
-
-        if (isMoving)   
+        if (taMovendo)   
         {
             Quaternion lookAtRotation = Quaternion.LookRotation(positionLookAt);
-            transform.rotation = Quaternion.Slerp(currentRotation, lookAtRotation, rotationVelocity *Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(currentRotation, lookAtRotation, velocidadeRodar *Time.deltaTime);
         }
     }
 
-    private void AnimationHandler()
+    private void TrocaAnim()
     {
-        bool isRuningAnimation = animator.GetBool(a_isRunning);
-        bool isMovingAnimation = animator.GetBool(a_isWalking);
-
-        if (isMoving && !isMovingAnimation)
-        {
-            animator.SetBool(a_isWalking, true);
-        }
-        else if (!isMoving && isMovingAnimation)
-        {
-            animator.SetBool(a_isWalking, false);
-        }
-        if (isMoving && isRunningPressed && !isRuningAnimation)
-        {
-            animator.SetBool(a_isRunning, true);
-        }
-        else if (!isMoving || !isRunningPressed && isRuningAnimation)
-        {
-            animator.SetBool(a_isRunning, false);
-        }
+        if (taMovendo)
+            animator.SetBool("andando", true);
+        else if (!taMovendo)        
+            animator.SetBool("andando", false);
     }
 
-    private void MovePlayer()
+    private void MovimentaJogador()
     {
-      
-        if (isRunningPressed)
-        {
-            characterController.Move(currentRunVelocity * Time.deltaTime * velocidade);
-
-        }
-        else
-        {
-            characterController.Move(playerVec3 * Time.deltaTime * velocidade);
-
-        }
+    playerControl.Move(playerVec3 * velocidade * Time.deltaTime );
+        
     }
 
     private void OnEnable()
@@ -169,5 +115,16 @@ public class Player : MonoBehaviour
     private void OnDisable()
     {
         input.Movement.Disable();
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        vida -=  10;
+        vidaTxt.text = "vida " + vida;
+        if (vida <= 0)
+        {
+            Derrota.enabled = true;
+            Time.timeScale = 0; 
+        }
     }
 }

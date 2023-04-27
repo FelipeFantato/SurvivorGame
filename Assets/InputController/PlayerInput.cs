@@ -35,15 +35,6 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""Run"",
-                    ""type"": ""Button"",
-                    ""id"": ""d9fa4639-269e-4ff4-a55f-1fbc310d6953"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -112,28 +103,6 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
                     ""action"": ""Walk"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""c5de889c-dd5c-4f9a-83a1-6d0371567aeb"",
-                    ""path"": ""<Gamepad>/leftStick/down"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Run"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""c3c26702-822d-450c-9623-8cac66ccca68"",
-                    ""path"": ""<Keyboard>/leftShift"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Run"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -143,7 +112,6 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         // Movement
         m_Movement = asset.FindActionMap("Movement", throwIfNotFound: true);
         m_Movement_Walk = m_Movement.FindAction("Walk", throwIfNotFound: true);
-        m_Movement_Run = m_Movement.FindAction("Run", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -204,13 +172,11 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Movement;
     private IMovementActions m_MovementActionsCallbackInterface;
     private readonly InputAction m_Movement_Walk;
-    private readonly InputAction m_Movement_Run;
     public struct MovementActions
     {
         private @PlayerInput m_Wrapper;
         public MovementActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Walk => m_Wrapper.m_Movement_Walk;
-        public InputAction @Run => m_Wrapper.m_Movement_Run;
+        public InputAction Andar => m_Wrapper.m_Movement_Walk;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -220,22 +186,16 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_MovementActionsCallbackInterface != null)
             {
-                @Walk.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnWalk;
-                @Walk.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnWalk;
-                @Walk.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnWalk;
-                @Run.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnRun;
-                @Run.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnRun;
-                @Run.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnRun;
+                Andar.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnWalk;
+                Andar.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnWalk;
+                Andar.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnWalk;
             }
             m_Wrapper.m_MovementActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Walk.started += instance.OnWalk;
-                @Walk.performed += instance.OnWalk;
-                @Walk.canceled += instance.OnWalk;
-                @Run.started += instance.OnRun;
-                @Run.performed += instance.OnRun;
-                @Run.canceled += instance.OnRun;
+                Andar.started += instance.OnWalk;
+                Andar.performed += instance.OnWalk;
+                Andar.canceled += instance.OnWalk;
             }
         }
     }
@@ -243,6 +203,5 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     public interface IMovementActions
     {
         void OnWalk(InputAction.CallbackContext context);
-        void OnRun(InputAction.CallbackContext context);
     }
 }
