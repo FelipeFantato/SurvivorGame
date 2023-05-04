@@ -25,84 +25,135 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     ""maps"": [
         {
             ""name"": ""Movement"",
-            ""id"": ""a2e650d8-e4a7-49ce-a19a-033611dff8e6"",
+            ""id"": ""a7953a1b-9cdc-46f9-837a-c7a5738a0257"",
             ""actions"": [
                 {
-                    ""name"": ""Walk"",
+                    ""name"": ""walk"",
                     ""type"": ""Value"",
-                    ""id"": ""93f92aec-e1aa-4eef-9894-9d8266e55c27"",
+                    ""id"": ""e96fb497-007f-4f5d-9039-de98b9459887"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
+                    ""processors"": ""NormalizeVector2"",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Run"",
+                    ""type"": ""Button"",
+                    ""id"": ""d1369b27-9982-4da7-847c-d85eb7179b95"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""60a77426-3376-4ad7-834d-f09c047a963e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""5cf8825d-1172-4136-aa9e-b3976c5564f0"",
+                    ""id"": ""baedb076-e6b7-4257-ad5a-a9186d6d57d2"",
                     ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
                     ""processors"": ""NormalizeVector2"",
                     ""groups"": """",
-                    ""action"": ""Walk"",
+                    ""action"": ""walk"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": ""2D Vector"",
-                    ""id"": ""f66ff43c-92bf-48f3-ae12-923969d3df98"",
+                    ""id"": ""7fc679ce-dd23-4ebb-a5cf-1fd56c6f5b8b"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": ""NormalizeVector2"",
                     ""groups"": """",
-                    ""action"": ""Walk"",
+                    ""action"": ""walk"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": ""up"",
-                    ""id"": ""7e9ff144-4e8e-4f52-9e68-ea7905b84924"",
+                    ""id"": ""6773ad3e-11a8-489a-93be-668ea6a1f723"",
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Walk"",
+                    ""action"": ""walk"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""down"",
-                    ""id"": ""63c0bc18-4ec8-4825-a33e-486be0d85758"",
+                    ""id"": ""0a84649a-a1eb-4809-97a4-41b73d911a6c"",
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Walk"",
+                    ""action"": ""walk"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""left"",
-                    ""id"": ""1cd31941-3482-4db0-a3c3-28008c7fc67d"",
+                    ""id"": ""f7a7b088-32de-4662-9d87-b96c53cc2b60"",
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Walk"",
+                    ""action"": ""walk"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""right"",
-                    ""id"": ""88ae713d-efdd-4ff1-be82-5e63107bd75d"",
+                    ""id"": ""66c63dcb-dfbf-4ff7-a8b5-16289e58d12d"",
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Walk"",
+                    ""action"": ""walk"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""deac53f5-a40b-4ec6-92c9-12418c60b5f0"",
+                    ""path"": ""<Keyboard>/leftShift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eadbc916-d12d-4727-a0b6-2b9e2d8cfc56"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7fad578b-2a1e-47e4-b1ec-2b611d8e79ff"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -111,7 +162,9 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
 }");
         // Movement
         m_Movement = asset.FindActionMap("Movement", throwIfNotFound: true);
-        m_Movement_Walk = m_Movement.FindAction("Walk", throwIfNotFound: true);
+        m_Movement_walk = m_Movement.FindAction("walk", throwIfNotFound: true);
+        m_Movement_Run = m_Movement.FindAction("Run", throwIfNotFound: true);
+        m_Movement_Jump = m_Movement.FindAction("Jump", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -171,12 +224,16 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     // Movement
     private readonly InputActionMap m_Movement;
     private IMovementActions m_MovementActionsCallbackInterface;
-    private readonly InputAction m_Movement_Walk;
+    private readonly InputAction m_Movement_walk;
+    private readonly InputAction m_Movement_Run;
+    private readonly InputAction m_Movement_Jump;
     public struct MovementActions
     {
         private @PlayerInput m_Wrapper;
         public MovementActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
-        public InputAction Andar => m_Wrapper.m_Movement_Walk;
+        public InputAction @walk => m_Wrapper.m_Movement_walk;
+        public InputAction @Run => m_Wrapper.m_Movement_Run;
+        public InputAction @Jump => m_Wrapper.m_Movement_Jump;
         public InputActionMap Get() { return m_Wrapper.m_Movement; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -186,16 +243,28 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
         {
             if (m_Wrapper.m_MovementActionsCallbackInterface != null)
             {
-                Andar.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnWalk;
-                Andar.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnWalk;
-                Andar.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnWalk;
+                @walk.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnWalk;
+                @walk.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnWalk;
+                @walk.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnWalk;
+                @Run.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnRun;
+                @Run.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnRun;
+                @Run.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnRun;
+                @Jump.started -= m_Wrapper.m_MovementActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_MovementActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_MovementActionsCallbackInterface.OnJump;
             }
             m_Wrapper.m_MovementActionsCallbackInterface = instance;
             if (instance != null)
             {
-                Andar.started += instance.OnWalk;
-                Andar.performed += instance.OnWalk;
-                Andar.canceled += instance.OnWalk;
+                @walk.started += instance.OnWalk;
+                @walk.performed += instance.OnWalk;
+                @walk.canceled += instance.OnWalk;
+                @Run.started += instance.OnRun;
+                @Run.performed += instance.OnRun;
+                @Run.canceled += instance.OnRun;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
             }
         }
     }
@@ -203,5 +272,7 @@ public partial class @PlayerInput : IInputActionCollection2, IDisposable
     public interface IMovementActions
     {
         void OnWalk(InputAction.CallbackContext context);
+        void OnRun(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
     }
 }
