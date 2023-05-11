@@ -8,13 +8,15 @@ public class Gun : MonoBehaviour
     [SerializeField] private projctle projetil;
     [SerializeField] private float damage;
     [SerializeField] private Transform bulletSpawm;
+    [SerializeField] private PlayerScript scriptPlayer;
+
     private PlayerInput playerInput;
     private bool fire;
-
+    private bool isFiring;
     void Awake()
     {
         playerInput = new PlayerInput();
-
+       
         playerInput.Movement.Jump.started += OnFireInput;
         playerInput.Movement.Jump.canceled += OnFireInput;
     }
@@ -24,6 +26,8 @@ public class Gun : MonoBehaviour
     {
         fire = context.ReadValueAsButton();
         Fire();
+        scriptPlayer.isFiring = fire;
+       
     }
      
 

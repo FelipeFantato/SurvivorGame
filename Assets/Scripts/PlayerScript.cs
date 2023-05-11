@@ -13,6 +13,8 @@ public class PlayerScript : MonoBehaviour
     private bool isrotation;
     private bool isrunning;
     private bool isJumping;
+    public bool isFiring;
+    
     private float rotationVelocity = 5f; 
 
 
@@ -22,7 +24,7 @@ public class PlayerScript : MonoBehaviour
 
     private int a_isWalking;
     private int a_isRunning;
-
+    
 
 
     [SerializeField] private float velocidade;
@@ -130,6 +132,20 @@ public class PlayerScript : MonoBehaviour
         {
             animator.SetBool(a_isRunning,false);
         }
+
+
+        if (isFiring)
+        {
+            animator.SetBool("isFiring", true);
+            print("ATIRANDO!");
+        }
+        else
+        {
+            animator.SetBool("isFiring", false);
+            print("NAO ATIRANDO");
+        }
+
+
     }
 
     private void MovePlayer()

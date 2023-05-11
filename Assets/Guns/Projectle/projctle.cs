@@ -19,4 +19,9 @@ public class projctle : MonoBehaviour
     {
         transform.Translate(Vector3.forward * bulletVelocity *Time.deltaTime);
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        Destroy(this.gameObject);
+    }
+   
 }
